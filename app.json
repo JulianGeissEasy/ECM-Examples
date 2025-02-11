@@ -1,0 +1,39 @@
+{
+  "id": "cb83fe26-6c2b-4e18-870b-4c74c4fe3c20",
+  "name": "ECM Examples",
+  "publisher": "EASY SOFTWARE AG",
+  "version": "1.0.0.0",
+  "brief": "",
+  "description": "",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "dependencies": [
+    {
+      "id": "e451a68e-c421-4144-a66a-6dea308e96ce",
+      "name": "ECM Base Application",
+      "publisher": "EASY Software AG",
+      "version": "25.3.241219.0"
+    }
+  ],
+  "screenshots": [],
+  "platform": "1.0.0.0",
+  "application": "25.0.0.0",
+  "idRanges": [
+    {
+      "from": 61000,
+      "to": 62000
+    }
+  ],
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": true
+  },
+  "runtime": "14.0",
+  "features": [
+    "NoImplicitWith"
+  ]
+}
