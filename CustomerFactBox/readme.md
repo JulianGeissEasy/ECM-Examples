@@ -1,0 +1,1 @@
+To add a custom filtered factbox, you can use existing controls in the ECM Base Application as shown in the example here.
