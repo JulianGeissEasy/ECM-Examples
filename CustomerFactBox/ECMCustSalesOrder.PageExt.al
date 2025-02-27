@@ -10,6 +10,13 @@ pageextension 61000 "ECM Cust. Sales Order" extends "Sales Order"
                 Caption = 'ECM Customer Documents';
                 UpdatePropagation = SubPart;
             }
+            part(ECMCustomCustomerDocsUnbuffered; "ECM Doc Entries FactBox")
+            {
+                ApplicationArea = All;
+                Caption = 'ECM Customer Documents Unbuffered';
+                UpdatePropagation = SubPart;
+                SubPageLink = "Account No." = field("Sell-to Customer No."), "Account Type" = const(Customer);
+            }
             part(ECMCustomItemDocs; "ECM Doc.Entries Buffer FactBox")
             {
                 ApplicationArea = All;
@@ -29,10 +36,14 @@ pageextension 61000 "ECM Cust. Sales Order" extends "Sales Order"
 
         CurrPage.ECMCustomItemDocs.Page.SetPageID(CurrPage.ObjectId(false));
         CurrPage.ECMCustomItemDocs.Page.SetECMDocEntryPrimaryFilter(TempECMDocEntryPrimaryfilter);
+
+        CurrPage.ECMCustomCustomerDocsUnbuffered.Page.SetPageID(CurrPage.ObjectId(false));
+        CurrPage.ECMCustomCustomerDocsUnbuffered.Page.SetECMDocEntryPrimaryFilter(TempECMDocEntryPrimaryfilter);
     end;
 
     trigger OnAfterGetCurrRecord()
     var
+        SalesLine: Record "Sales Line";
         Item: Record Item;
         ECMDocumentEntry: Record "ECM Document Entry";
     begin
@@ -42,7 +53,13 @@ pageextension 61000 "ECM Cust. Sales Order" extends "Sales Order"
         CurrPage.ECMCustomCustomerDocs.Page.InitECMEntryBuffer();
         CurrPage.ECMCustomCustomerDocs.Page.Update(false);
 
-        Item.Get('1000');
+        Item.Init();
+        SalesLine.SetRange("Document Type", Rec."Document Type");
+        SalesLine.SetRange("Document No.", Rec."No.");
+        SalesLine.SetRange(Type, SalesLine.Type::Item);
+        if SalesLine.FindFirst() then
+            if Item.Get(SalesLine."No.") then;
+
         CurrPage.ECMCustomItemDocs.Page.LoadDataFromRecord(Item);
     end;
 }
