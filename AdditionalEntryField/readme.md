@@ -3,7 +3,7 @@ To add a custom field to the document entries, you need to add the field to 4 ta
 1. ECM Document Journal Line
 2. ECM Document Entry
 3. ECM Document Reversal Entry
-4. ECM Document Entry Buffer
+4. ECM Document Entry Buffer (used to display as Source Record in the default FactBox)
 
 For example we added the item no. here as a multiple field in the ECM Document Definition:
 ![Setup Line](./Setup.png)
