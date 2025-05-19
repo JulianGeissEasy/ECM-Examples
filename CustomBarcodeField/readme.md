@@ -1,0 +1,1 @@
+This code creates a Journal Line in the On Hold Journal with the custom barcode field as "ECM Document ID (Barcode)".
