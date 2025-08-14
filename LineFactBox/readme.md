@@ -1,0 +1,1 @@
+To show documents of a subpage of a page, you can embed the ECM Documents Buffer FactBox with a subpage link.
