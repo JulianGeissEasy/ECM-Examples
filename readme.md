@@ -24,6 +24,9 @@ Below you'll find a list of folders in this repository, each with a brief descri
 - [ReportFindDocDefByName](./ReportFindDocDefByName)  
   *How to find document definitions by name in ECM reports.*
 
+- [CreateDocumentEntry](./CreateDocumentEntry)
+  *How to create a document entry by code with a known ECM Document Reference.*
+
 ---
 
 Feel free to explore each folder for detailed examples, code samples, and documentation. If you have any questions or suggestions, please open an issue or submit a pull request!
