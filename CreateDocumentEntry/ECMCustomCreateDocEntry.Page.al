@@ -58,7 +58,7 @@ page 61000 "ECM Custom Create Doc. Entry"
     trigger OnOpenPage()
     begin
         SalesHeader.SetRange("Document Type", SalesHeader."Document Type"::Order);
-        SalesHeader.FindFirst();
+        SalesHeader.FindFirst(); // find the record, to which you want to assign the document
     end;
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean
@@ -74,7 +74,7 @@ page 61000 "ECM Custom Create Doc. Entry"
             if not ECMAPI.FindDocDefByRRef(ECMDocumentDefinition, SalesHeader, "ECM Purpose Of Use"::File) then
                 Error('No doc. def. found for Record %1.', SalesHeader.RecordId());
 
-            if ECMRepositoryCode <> '' then // if Repository is not known
+            if ECMRepositoryCode = '' then // if Repository Code is not known, Code may change if strucutre is imported again. it is always recommended to find by the Repository by the Repository Ref.
                 ECMRepositoryLibrary.FindECMRepCodebyRef(ECMRepositoryLibrary, ECMServerCode, ECMRepositoryRef, ECMRepositoryCode);  // get repository code from Ref. or ID
 
             if ECMRepositoryCode = '' then // get repository from Document Ref. of EASY ARCHIVE/Sharepoint
@@ -101,7 +101,7 @@ page 61000 "ECM Custom Create Doc. Entry"
                     ECMDocumentID := CopyStr(ECMDocumentReference, DocRefLength - MaxStrLen(ECMDocumentID));
             end;
 
-            ECMDocumentDefinition."Post after Assign if Ready" := true; // auto. post ecm doc. journal line if ready
+            ECMDocumentDefinition."Post after Assign if Ready" := true; // auto. post ecm doc. journal line if all information exists
             ECMAPI.AssignECMDocID(TempECMDocumentJournalLine, ECMDocumentDefinition, SalesHeader, ECMDocumentID, false, false, false);
         end;
 
