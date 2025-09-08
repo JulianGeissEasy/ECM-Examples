@@ -69,6 +69,7 @@ page 61000 "ECM Custom Create Doc. Entry"
         ECMServerMgt: Codeunit "ECM Server Management";
         ECMAPI: Codeunit "ECM API";
         DocRefLength: Integer;
+        ErrorCode: Integer;
     begin
         if CloseAction = Action::OK then begin
             if not ECMAPI.FindDocDefByRRef(ECMDocumentDefinition, SalesHeader, "ECM Purpose Of Use"::File) then
@@ -102,7 +103,10 @@ page 61000 "ECM Custom Create Doc. Entry"
             end;
 
             ECMDocumentDefinition."Post after Assign if Ready" := true; // auto. post ecm doc. journal line if all information exists
-            ECMAPI.AssignECMDocID(TempECMDocumentJournalLine, ECMDocumentDefinition, SalesHeader, ECMDocumentID, false, false, false);
+            ErrorCode := ECMAPI.AssignECMDocID(TempECMDocumentJournalLine, ECMDocumentDefinition, SalesHeader, ECMDocumentID, false, false, false);
+
+            if ErrorCode <> 0 then
+                ECMAPI.ShowMessage("ECM OnError"::Message, ErrorCode, '');
         end;
 
         exit(true);
