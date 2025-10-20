@@ -13,4 +13,4 @@ The results looks like this in the ECM Document Entry:
 
 ![ECM Document Entry](./Result.png)
 
-To filter on document entries, you can embed the document entry factbox with custom filters as shown in the ["CustomerFactBox" example](/CustomerFactBox/readme.md).
+To filter on document entries, you can embed the document entry factbox with custom filters as shown in the ["CustomerFactBox" example](/CustomerFactBox).
