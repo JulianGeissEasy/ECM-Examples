@@ -1,0 +1,1 @@
+Gets all document entries for a sales invoice and saves all files in a zip and downloads it.

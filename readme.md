@@ -27,6 +27,9 @@ Below you'll find a list of folders in this repository, each with a brief descri
 - [CreateDocumentEntry](./CreateDocumentEntry)
   *How to create a document entry by code with a known ECM Document Reference.*
 
+- [GetDocuments](./GetDocumentsForRecord/)
+  *How to get all document entries to a posted sales invoice and retrieve the files.*
+
 ---
 
 Feel free to explore each folder for detailed examples, code samples, and documentation. If you have any questions or suggestions, please open an issue or submit a pull request!
