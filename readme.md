@@ -30,6 +30,9 @@ Below you'll find a list of folders in this repository, each with a brief descri
 - [GetDocuments](./GetDocumentsForRecord/)
   *How to get all document entries to a posted sales invoice and retrieve the files.*
 
+- [CustomMailDocumentCategory](./CustomMailDocumentCategory)
+  *How to assign a custom ECM document category to a purchase order when emailing it.*
+
 ---
 
 Feel free to explore each folder for detailed examples, code samples, and documentation. If you have any questions or suggestions, please open an issue or submit a pull request!
