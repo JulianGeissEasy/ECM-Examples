@@ -4,24 +4,31 @@ pageextension 61000 "ECM Cust. Sales Order" extends "Sales Order"
     {
         addafter(ECMdocs)
         {
-            part(ECMCustomCustomerDocs; "ECM Doc.Entries Buffer FactBox")
+            part(ECMCustomCustomerDocsWithLink; "ECM Doc.Entries Buffer FactBox") // drop or assign document is possible, record is retrieved by page link and object reference matrix setup
             {
                 ApplicationArea = All;
-                Caption = 'ECM Customer Documents';
+                Caption = 'ECM Customer Documents With Link';
+                UpdatePropagation = SubPart;
+                SubPageLink = "Table ID" = const(Database::Customer), "Account No." = field("Sell-to Customer No.");
+            }
+            part(ECMCustomCustomerDocsWithView; "ECM Doc.Entries Buffer FactBox") // drop or assign document is NOT possible
+            {
+                ApplicationArea = All;
+                Caption = 'ECM Customer Documents With View';
                 UpdatePropagation = SubPart;
             }
-            part(ECMCustomCustomerDocsUnbuffered; "ECM Doc Entries FactBox")
+            part(ECMCustomItemDocs; "ECM Doc.Entries Buffer FactBox")  // drop or assign document is possible, record is passed to factbox by code
+            {
+                ApplicationArea = All;
+                Caption = 'ECM Item Documents';
+                UpdatePropagation = SubPart;
+            }
+            part(ECMCustomCustomerDocsUnbuffered; "ECM Doc Entries FactBox") // not using underlying temporary records
             {
                 ApplicationArea = All;
                 Caption = 'ECM Customer Documents Unbuffered';
                 UpdatePropagation = SubPart;
                 SubPageLink = "Account No." = field("Sell-to Customer No."), "Account Type" = const(Customer);
-            }
-            part(ECMCustomItemDocs; "ECM Doc.Entries Buffer FactBox")
-            {
-                ApplicationArea = All;
-                Caption = 'ECM Item Documents';
-                UpdatePropagation = SubPart;
             }
         }
     }
@@ -30,9 +37,14 @@ pageextension 61000 "ECM Cust. Sales Order" extends "Sales Order"
     var
         TempECMDocEntryPrimaryfilter: Record "ECM Doc. Entry Primary filter" temporary;
     begin
+        // primary filter to hide drop area
         TempECMDocEntryPrimaryfilter."ECM FactBox UI" := TempECMDocEntryPrimaryfilter."ECM FactBox UI"::"Records Only";
-        CurrPage.ECMCustomCustomerDocs.Page.SetPageID(CurrPage.ObjectId(false));
-        CurrPage.ECMCustomCustomerDocs.Page.SetECMDocEntryPrimaryFilter(TempECMDocEntryPrimaryfilter);
+
+        CurrPage.ECMCustomCustomerDocsWithLink.Page.SetPageID(CurrPage.ObjectId(false));
+        CurrPage.ECMCustomCustomerDocsWithLink.Page.SetECMDocEntryPrimaryFilter(TempECMDocEntryPrimaryfilter);
+
+        CurrPage.ECMCustomCustomerDocsWithView.Page.SetPageID(CurrPage.ObjectId(false));
+        CurrPage.ECMCustomCustomerDocsWithView.Page.SetECMDocEntryPrimaryFilter(TempECMDocEntryPrimaryfilter);
 
         CurrPage.ECMCustomItemDocs.Page.SetPageID(CurrPage.ObjectId(false));
         CurrPage.ECMCustomItemDocs.Page.SetECMDocEntryPrimaryFilter(TempECMDocEntryPrimaryfilter);
@@ -49,9 +61,9 @@ pageextension 61000 "ECM Cust. Sales Order" extends "Sales Order"
     begin
         ECMDocumentEntry.SetRange("Account Type", ECMDocumentEntry."Account Type"::Customer);
         ECMDocumentEntry.SetRange("Account No.", Rec."Sell-to Customer No.");
-        CurrPage.ECMCustomCustomerDocs.Page.SetECMEntryView(ECMDocumentEntry);
-        CurrPage.ECMCustomCustomerDocs.Page.InitECMEntryBuffer();
-        CurrPage.ECMCustomCustomerDocs.Page.Update(false);
+        CurrPage.ECMCustomCustomerDocsWithView.Page.SetECMEntryView(ECMDocumentEntry);
+        CurrPage.ECMCustomCustomerDocsWithView.Page.InitECMEntryBuffer();
+        CurrPage.ECMCustomCustomerDocsWithView.Page.Update(false);
 
         Item.Init();
         SalesLine.SetRange("Document Type", Rec."Document Type");

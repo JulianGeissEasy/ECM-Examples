@@ -18,6 +18,9 @@ Below you'll find a list of folders in this repository, each with a brief descri
 - [CustomerFactBox](./CustomerFactBox)  
   *Provides an example of integrating a customer FactBox for quick insights.*
 
+- [PurchaseInvoiceWithViewFactBox](./PurchaseInvoiceWithViewFactBox)  
+  *Custom ECM FactBox on Purchase Invoice that lists documents of related purchase orders (header and lines) via `SetECMEntryView`.*
+
 - [ManualStoreReportWithRequestOptions](./ManualStoreReportWithRequestOptions)  
   *Manual storage of reports with configurable request options.*
 

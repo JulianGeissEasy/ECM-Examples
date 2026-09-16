@@ -13,12 +13,13 @@ reportextension 61000 "ECM Standard Statement" extends "Standard Statement"
         StandardStatement: Report "Standard Statement";
         ECMapi: Codeunit "ECM API";
         ECMGlobals: Codeunit "ECM Globals Variables";
+        ECMBindSubGlobalsVariables: Codeunit "ECM BindSub Globals Variables";
         CustomerRecordRef: RecordRef;
         NVOutStream: OutStream;
         TransactionNo: BigInteger;
         ErrorCode: Integer;
     begin
-        if ECMGlobals.GetPDFGenerator() <> '' then
+        if ECMGlobals.IsECMQueueEntrySuppressed() then
             exit;
 
         // https://docs.easy-cloud.de/365BC-cloud/de-DE/340852859.html
@@ -44,14 +45,16 @@ reportextension 61000 "ECM Standard Statement" extends "Standard Statement"
         ECMDocDef."File Name Suggestion" := TempECMJnlLine."File Name";
 
         // Skip reprint
-        ECMGlobals.SetPDFGenerator('StandardStatement');
+        ECMBindSubGlobalsVariables.SetSuppressECMQueueEntry('ManualArchive');
+        if BindSubscription(ECMBindSubGlobalsVariables) then;
 
         // Reprint Report
         StandardStatement.InitializeRequest(CurrReport.PrintEntriesDue, CurrReport.PrintAllHavingEntry, CurrReport.PrintAllHavingBal, CurrReport.PrintReversedEntries, CurrReport.PrintUnappliedEntries, CurrReport.IncludeAgingBand, '', 0, false, CurrReport.StartDate, CurrReport.EndDate);
         StandardStatement.SaveAs('', ReportFormat::Pdf, NVOutStream, CustomerRecordRef);
 
         // Restore Original State
-        ECMGlobals.SetPDFGenerator('');
+        ECMBindSubGlobalsVariables.ClearSuppressECMQueueEntry();
+        if UnbindSubscription(ECMBindSubGlobalsVariables) then;
 
         // Generate MD5 Hash
         TempECMJnlLine.GenerateMD5Hash();

@@ -57,7 +57,7 @@ page 61006 "ECM Custom Get Documents"
         ErrorCode: Integer;
         FileInStream: InStream;
     begin
-        ECMUser.GetDisplayUser('', true, false);
+        ECMUser.GetDisplayUser('', true);
         SalesInvoiceHeader.Get(InvoiceNo);
 
         TempECMDocumentEntryBuffer.LoadECMEntryWithRRef(TempECMDocumentEntryBuffer, SalesInvoiceHeader, ECMUser, ECMDocEntryPrimaryFilter, 0);
